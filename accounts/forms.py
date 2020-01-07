@@ -1,7 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-import pdb
 
 class UserSignUpForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=True)
@@ -21,9 +20,8 @@ class UserSignUpForm(UserCreationForm):
                  'email','birth_date' ,'alternate_email', 'preferred_name',)
 
     def save(self,commit=True):
-        user = super(SignUpForm,self).save(commit=False)
+        user = forms.ModelForm.save(self,commit=False)
         for key,value in self.cleaned_data.items():
-            pdb.set_trace()
             user.__dict__[key] = value
         if commit:
             user.save()
