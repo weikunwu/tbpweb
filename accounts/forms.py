@@ -21,8 +21,9 @@ class UserSignUpForm(UserCreationForm):
 
     def save(self,commit=True):
         user = forms.ModelForm.save(self,commit=False)
+        user.refresh_from_db()
         for key,value in self.cleaned_data.items():
-            user.__dict__[key] = value
+            user.profile.__dict__[key] = value
         if commit:
             user.save()
         return user
